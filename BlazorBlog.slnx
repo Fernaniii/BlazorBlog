@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="BlazorBlog.Application/BlazorBlog.Application.csproj" Id="1aa072f9-6f2e-44bd-a863-e536292ab6db" />
+    <Project Path="BlazorBlog.Domain/BlazorBlog.Domain.csproj" Id="1aed91f7-5733-4514-afd9-f9148a72b301" />
     <Project Path="BlazorBlog/BlazorBlog.WebUI.Server.csproj" Id="863df896-6be1-4348-98df-255ce067f19f" />
   </Folder>
 </Solution>
