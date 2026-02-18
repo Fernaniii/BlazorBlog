@@ -6,3 +6,5 @@
 /BlazorBlog/Properties/launchSettings.json
 /.vs
 /BlazorBlog/bin/Debug/net9.0
+/BlazorBlog.Application/obj
+/BlazorBlog.Domain/obj
