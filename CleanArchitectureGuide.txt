@@ -1,0 +1,31 @@
+Guide tO Clean Architecture 
+
+Adding a 'src' folder => right click on the sln file => add folder => rename to 'src'
+
+Adding Presentation Layer 
+=> right click on the 'src' folder => add new project 
+=> select 'ASP.NET Core Web API' => name it [SolutionName].WebUI.Server
+=> run to check if it works
+
+
+Adding Application And Domain Layer
+=> right click on the 'src' folder => add new project
+=> select 'Class Library' => name it [SolutionName].Application
+=> right click on the 'src' folder => add new project
+=> select 'Class Library' => name it [SolutionName].Domain
+=> remove the Class1.cs file from both projects
+
+
+Adding Project References
+
+Presentation Layer
+=> right click on the [SolutionName].WebUI.Server project => add => project reference 
+=> select [SolutionName].Application and [SolutionName].Domain
+
+
+Application Layer
+=> right click on the [SolutionName].Application project => add => project reference
+=> select [SolutionName].Domain
+
+Note! Domain Layer should not reference any other layer, 
+it should be independent and reusable in other projects without any dependencies.
