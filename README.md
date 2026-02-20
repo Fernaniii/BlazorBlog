@@ -158,3 +158,37 @@ Application
 
 -   Implementing CQRS & Mediator Pattern in the Application Layer
 -   Adding Unit Testing to the Application
+-   
+------------------------------------------------------------------------
+
+# Clean Architecture Visualization (Text Diagram)
+
+                    +-------------------------------+
+                    |       Presentation Layer      |
+                    |  [SolutionName].WebUI.Server  |
+                    +---------------+---------------+
+                                    |
+                                    v
+                    +-------------------------------+
+                    |        Infrastructure Layer   |
+                    |  [SolutionName].Infrastructure|
+                    +---------------+---------------+
+                                    |
+                                    v
+                    +-------------------------------+
+                    |        Application Layer      |
+                    |  [SolutionName].Application   |
+                    +---------------+---------------+
+                                    |
+                                    v
+                    +-------------------------------+
+                    |          Domain Layer         |
+                    |      [SolutionName].Domain    |
+                    +-------------------------------+
+
+    Rule:
+    - Dependencies flow inward
+    - Domain has zero dependencies
+    - Infrastructure depends on Application
+    - Application depends on Domain
+    - Presentation depends on Infrastructure
