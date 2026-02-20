@@ -1,12 +1,9 @@
 <Solution>
   <Folder Name="/src/">
     <File Path="CleanArchitectureGuide.txt" />
-    <Project Path="BlazorBlog.Application/BlazorBlog.Application.csproj" Id="1aa072f9-6f2e-44bd-a863-e536292ab6db">
-      <Build Solution="Debug|*" Project="false" />
-    </Project>
-    <Project Path="BlazorBlog.Domain/BlazorBlog.Domain.csproj" Id="1aed91f7-5733-4514-afd9-f9148a72b301">
-      <Build Solution="Debug|*" Project="false" />
-    </Project>
+    <Project Path="BlazorBlog.Application/BlazorBlog.Application.csproj" Id="1aa072f9-6f2e-44bd-a863-e536292ab6db" />
+    <Project Path="BlazorBlog.Domain/BlazorBlog.Domain.csproj" Id="1aed91f7-5733-4514-afd9-f9148a72b301" />
+    <Project Path="BlazorBlog.Infrastructure/BlazorBlog.Infrastructure.csproj" Id="8818c14d-30a6-4e4e-b1be-e1a73bb2a017" />
     <Project Path="BlazorBlog/BlazorBlog.WebUI.Server.csproj" Id="863df896-6be1-4348-98df-255ce067f19f" />
   </Folder>
 </Solution>
