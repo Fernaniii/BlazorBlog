@@ -1,1 +1,160 @@
-# BlazorBlog
+# Guide to Clean Architecture
+
+src: https://www.youtube.com/watch?v=wW0n4UdjTHA&t=6295s
+
+## Adding a 'src' folder
+
+-   right click on the sln file
+-   add folder
+-   rename to 'src'
+
+## Adding Presentation Layer
+
+-   right click on the 'src' folder
+-   add new project
+-   select 'ASP.NET Core Web API'
+-   name it \[SolutionName\].WebUI.Server
+-   run to check if it works
+
+## Adding Application And Domain Layer
+
+-   right click on the 'src' folder
+
+-   add new project
+
+-   select 'Class Library'
+
+-   name it \[SolutionName\].Application
+
+-   right click on the 'src' folder
+
+-   add new project
+
+-   select 'Class Library'
+
+-   name it \[SolutionName\].Domain
+
+-   remove the Class1.cs file from both projects
+
+## Presentation Layer
+
+-   right click on the \[SolutionName\].WebUI.Server project
+-   add
+-   project reference
+-   select \[SolutionName\].Application and \[SolutionName\].Domain
+
+## Application Layer
+
+-   right click on the \[SolutionName\].Application project
+-   add
+-   project reference
+-   select \[SolutionName\].Domain
+
+Note! Domain Layer should not reference any other layer, it should be
+independent and reusable in other projects without any dependencies.
+
+## Infrastructure Layer
+
+### Adding Infrastructure Project
+
+-   right click on the 'src' folder
+-   add new project
+-   select 'Class Library'
+-   name it \[SolutionName\].Infrastructure
+-   remove the Class1.cs file from the project
+
+### Remove the Presentation Project Reference to Application Layer
+
+-   right click on the \[SolutionName\].WebUI.Server project
+-   add
+-   project reference
+-   uncheck the \[SolutionName\].Application project reference
+-   add a reference to the \[SolutionName\].Infrastructure project
+    reference instead
+-   click ok
+
+### Add Project Reference to the Infrastructure
+
+-   right click on the \[SolutionName\].Infrastructure project
+-   add
+-   project reference
+-   select \[SolutionName\].Application
+-   click ok
+
+## Adding SQL Server to the Infrastructure Layer
+
+-   right click on the \[SolutionName\].Infrastructure project
+-   manage nuget packages
+-   search for 'Microsoft.EntityFrameworkCore.SqlServer'
+-   install the package
+
+## Add another Dependency Injection Container to the Infrastructure Layer
+
+-   right click on the \[SolutionName\].Infrastructure project
+-   Add
+-   Add new class
+-   name it 'DependencyInjection'
+-   add the Configuration method to the class
+-   register the service to Program.cs file in the Presentation Layer
+
+## Add Abstraction to the Domain
+
+Add Abstraction to the Domain all the Repeated Property such as Id,
+CreatedAt, UpdatedAt, DeletedAt for instance, to avoid repeating the
+same properties in all the entities in the Domain Layer
+
+DRY =\> Don't Repeat Yourself!
+
+## Add Database using tool
+
+-   go to the solution explorer
+-   right click on the \[SolutionName\].Infrastructure project
+-   Manage Nuget Packages
+-   search for 'Microsoft.EntityFrameworkCore.Tools'
+-   install the package
+-   also install the tool for the Presentation Layer as well
+
+## Add Database using the EF tools
+
+NOTE: Make Sure set the Default Project to the
+\[SolutionName\].Infrastructure project in the Package Manager Console
+found at the top of the Package Manger select
+\[SolutionName\].Infrastructure from the dropdown list
+
+-   open the Package Manger Console
+-   type the command 'Add-Migration Initial'
+-   type the command 'Update-Database' to create the database in SQL
+    Server
+
+## Adding Reposirory Pattern
+
+-   Right click on the \[SolutionName\].Domain project
+
+-   add
+
+-   new class names 'IEntityNameRepository'
+
+-   Implement the Repoisitory 'EnitityNameRepository' in the
+    \[SolutionName\].Infrastructure project
+
+-   Add the Query Execution on the Added Implementation
+
+## Implementation of the Repository in the Application Layer
+
+-   right click on the \[SolutionName\].Application project
+-   add
+-   new class
+-   name it 'EntityNameService'
+-   inject the repository interface in the constructor of the service
+    class
+-   call the repository in the service class methods
+
+## CQRS & Mediator Pattern
+
+NOTE: You don't need to implement the CQRS & Mediator Pattern on smaller
+Application
+
+## Next Steps
+
+-   Implementing CQRS & Mediator Pattern in the Application Layer
+-   Adding Unit Testing to the Application
