@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlazorBlog.Application.Articles
 {
     public interface IArticleService
     {
-
-        List<Article> GetArticles();
+        Task<List<Article>> GetAllArticlesAsync();
     }
 }

@@ -1,6 +1,7 @@
 using BlazorBlog.Application.Articles;
 using BlazorBlog.WebUI.Server.Components;
 using BlazorBlog.Application;
+using BlazorBlog.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,14 @@ builder.Services.AddRazorComponents();
 
 // Or you can Use Depenndency Injection class in ano9ther folder and call it in Program.cs file like below
 builder.Services.AddApplication();
+
+// On Adding Connection string you can use this
+
+//builder.Configuration.GetConnectionString("DefaultConnection");
+
+// But this is not an option but instead use the same approach like the Service
+// And Create a Dependency Injection class in the Infrastructure folder and call it in Program.cs file like below
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
