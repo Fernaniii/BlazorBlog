@@ -87,3 +87,20 @@ Implementation of the Repository in the Application Layer
 => right click on the [SolutionName].Application project => add => new class 
 => name it 'EntityNameService' => inject the repository interface in the constructor of the service class 
 => call the repository in the service class methods
+
+
+CQRS & Mediator Pattern
+	NOTE: You don't need to implement the CQRS 
+		& Mediator Pattern on smaller Application, 
+
+Next Steps
+	: Implementing CQRS & Mediator Pattern in the Application Layer
+	: Adding Unit Testing to the Application
+
+
+
+
+
+
+
+

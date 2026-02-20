@@ -28,7 +28,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(5000);
         var result = await ArticleService.GetAllArticlesAsync();
         if (result is not null)
         {
