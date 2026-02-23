@@ -98,7 +98,15 @@ Next Steps
 	: Adding Unit Testing to the Application
 
 
+## Without CQRS & Mediator Pattern
 
+Adding Repository Method to the Repository (EF Core)
+=> Open the 'IEntityNameRepository' Interface in the Domain Layer
+=> Implement the EntityNameRepository in the Infrastructure Layer
+=> Add IEntityNameService to the Application Layer
+=> Implement the EntityNameService in the Application Layer
+=> Register the Service in the Dependency Injection Container
+=> Use the the Service in the Blazor Page
 
 
 
