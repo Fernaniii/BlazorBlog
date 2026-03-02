@@ -1,29 +1,208 @@
 ﻿@page "/articles"
+
 @inject IArticleService ArticleService
-@attribute [StreamRendering]
+@rendermode Microsoft.AspNetCore.Components.Web.RenderMode.InteractiveServer
+
+
+
+@* @attribute [StreamRendering] *@
 
 
 <PageTitle>Articles</PageTitle>
 
+<button class="btn btn-primary" 
+    @onclick="() => OpenAddArticleModal()">
+    Add
+</button>
 
-@if (articles.Count() == 0)
-{
-    <p>Loading....</p>
-}
-else
-{
-    <small class="text-muted">Total Count: @articles.Count()</small>
-    foreach (var article in articles)
-    {
-        <h4 class="fs-4">@article.Title</h4>
-        <p>@article.Content</p>
-        <small class="text-muted">Published on @article.PublishedOn.ToString("MMMM dd, yyyy")</small>
-    }
 
+<br/>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            @if (!articles.Any())
+            {
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary"></div>
+                    <div class="mt-2 text-muted">Loading articles...</div>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold mb-0">News Feed</h6>
+                    <small class="text-muted">Total: @articles.Count()</small>
+                </div>
+
+                @foreach (var article in articles)
+                {
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-body">
+
+                            <!-- Header: Title + 3-dot menu -->
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h5 class="card-title mb-1 fw-semibold">@article.Title</h5>
+                                    <small class="text-muted">Posted just now</small>
+                                </div>
+
+                                <!-- 3-dot dropdown -->
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light p-1"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a class="dropdown-item" style="cursor: pointer;" @onclick="() => EditArticle(article.Id)">
+                                                Edit Article
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" style="cursor: pointer;" @onclick="() => DeleteArticle(article.Id)">
+                                                Delete
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li>
+                                            <a class="dropdown-item" style="cursor: pointer;" @onclick="() => ShareArticle(article.Id)">
+                                                Share
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <!-- Footer Actions -->
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-light btn-sm flex-fill me-2"
+                                        @onclick="() => openDetail(article.Id)">
+                                    <i class="bi bi-book me-1"></i> Read More
+                                </button>
+
+                                <button class="btn btn-light btn-sm flex-fill">
+                                    <i class="bi bi-hand-thumbs-up me-1"></i> Like
+                                </button>
+
+                                <button class="btn btn-light btn-sm flex-fill ms-2">
+                                    <i class="bi bi-chat me-1"></i> Comment
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+@if (showAddArticle)
+{
+    <div class="modal fade show"
+         style="display:block; background-color: rgba(0,0,0,0.5);"
+         aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Article</h5>
+                    <button type="button" class="btn-close" @onclick="CloseAddArticleModal"></button>
+                </div>
+                <div class="modal-body">
+                   <EditForm Model="@newArticle" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <InputText id="title" class="form-control" @bind-Value="newArticle.Title" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <InputTextArea id="content" class="form-control" @bind-Value="newArticle.Content" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </EditForm>
+                </div>
+                <div class="modal-footer">
+                    @* <button class="btn btn-secondary" @onclick="CloseModal">Close</button> *@
+                    <button class="btn btn-primary" @onclick="CloseAddArticleModal">Go back</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+
+
+@if (showDetail)
+{
+    <div class="modal fade show"
+         style="display:block; background-color: rgba(0,0,0,0.5);"
+         aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@SelectedArticle.Title</h5>
+                    <button type="button" class="btn-close" @onclick="CloseDetailModal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>@SelectedArticle.Content</p>
+                </div>
+                <div class="modal-footer">
+                    <small>Created: @SelectedArticle.DateCreated.ToString("MMM-dd-yyyy")</small>
+                    <small>Article Id: @SelectedArticle.Id</small>
+                    @* <button class="btn btn-secondary" @onclick="CloseModal">Close</button> *@
+                    @* <button class="btn btn-primary" @onclick="NavigateBack">Go back</button> *@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 
 @code {
     private List<Article> articles = new List<Article>();
+
+
+    // for viewing details  
+    private bool showDetail = false;
+    void CloseDetailModal() => showDetail = false;
+    void OpenDetailModal() => showDetail = true;
+    private Article SelectedArticle;
+
+    // for adding article
+    private ArticleFormModel newArticle = new();
+
+
+    private bool showAddArticle = false;
+    void CloseAddArticleModal() => showAddArticle = false;
+
+
+    void OpenAddArticleModal()
+    {
+        showAddArticle = true;
+    } 
+    private async Task HandleValidSubmit()
+    {
+
+        var article = Article.Create(newArticle.Title, newArticle.Content);
+        var result = await ArticleService.AddAsync(article);
+        if (result is not null)
+        {
+            articles.Add(result);
+            CloseAddArticleModal();
+        }
+
+    }
+
 
 
     protected override async Task OnInitializedAsync()
@@ -33,6 +212,39 @@ else
         {
             articles = result;
         }
-        
+
+    }
+
+    // This is for Demonstration only but you can use the
+    // asticle List to show the details of the article in a modal
+    async Task openDetail(int Id)
+    {
+        var result = await ArticleService.GetByIdAsync(Id);
+
+        if (result is null)
+        {
+            throw new Exception("Article not found");
+        }
+
+        SelectedArticle = result;
+        OpenDetailModal();
+    }
+
+    void EditArticle(int articleId)
+    {
+        throw new NotImplementedException("Edit functionality is not implemented yet.");
+        // Navigate or open edit form
+    }
+
+    void DeleteArticle(int articleId)
+    {
+        throw new NotImplementedException("Delete functionality is not implemented yet.");
+        // Delete logic
+    }
+
+    void ShareArticle(int articleId)
+    {
+        throw new NotImplementedException("Share functionality is not implemented yet.");
+        // Share logic
     }
 }
