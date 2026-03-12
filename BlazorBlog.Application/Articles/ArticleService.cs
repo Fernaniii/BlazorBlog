@@ -1,8 +1,4 @@
 ﻿using BlazorBlog.Domain.Articles;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace BlazorBlog.Application.Articles
 {
@@ -16,10 +12,19 @@ namespace BlazorBlog.Application.Articles
             _articleRepository = articleRepository;
         }
 
+        public async Task<Article> AddAsync(Article article)
+        {
+            return await _articleRepository.AddAsync(article);
+        }
+
         public async Task<List<Article>> GetAllArticlesAsync()
         {
             return await _articleRepository.GetAllArticlesAsync();
         }
 
+        public async Task<Article> GetByIdAsync(int id)
+        {
+            return await _articleRepository.GetByIdAsync(id);
+        }
     }
 }
