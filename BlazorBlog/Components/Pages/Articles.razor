@@ -2,7 +2,7 @@
 
 @inject IArticleService ArticleService
 @rendermode Microsoft.AspNetCore.Components.Web.RenderMode.InteractiveServer
-
+@inject IJSRuntime JS
 
 <PageTitle>Articles</PageTitle>
 
@@ -81,11 +81,13 @@
                                     <i class="bi bi-book me-1"></i> Read More
                                 </button>
 
-                                <button class="btn btn-light btn-sm flex-fill">
+                                <button class="btn btn-light btn-sm flex-fill"
+                                        @onclick="() => likeArticle(article.Id)">
                                     <i class="bi bi-hand-thumbs-up me-1"></i> Like
                                 </button>
 
-                                <button class="btn btn-light btn-sm flex-fill ms-2">
+                                <button class="btn btn-light btn-sm flex-fill ms-2"
+                                        @onclick="() => commentArticle(article.Id)">
                                     <i class="bi bi-chat me-1"></i> Comment
                                 </button>
                             </div>
@@ -93,6 +95,10 @@
                         </div>
                     </div>
                 }
+
+
+
+
             }
 
         </div>
@@ -101,53 +107,48 @@
 
 
 
-@if (showAddArticle)
-{
-    <div class="modal fade show"
-         style="display:block; background-color: rgba(0,0,0,0.5);"
-         aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Article</h5>
-                    <button type="button" class="btn-close" @onclick="CloseAddArticleModal"></button>
-                </div>
-                <div class="modal-body">
-                   <EditForm Model="@newArticle" OnValidSubmit="HandleValidSubmit">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <InputText id="title" class="form-control" @bind-Value="newArticle.Title" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            <InputTextArea id="content" class="form-control" @bind-Value="newArticle.Content" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </EditForm>
-                </div>
-                <div class="modal-footer">
-                    @* <button class="btn btn-secondary" @onclick="CloseModal">Close</button> *@
-                    <button class="btn btn-primary" @onclick="CloseAddArticleModal">Go back</button>
-                </div>
+
+<div class="modal fade"
+        id="addArticleModal"
+        aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Article</h5>
+                <button type="button" class="btn-close" @onclick="CloseAddArticleModal"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@newArticle" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <InputText id="title" class="form-control" @bind-Value="newArticle.Title" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content</label>
+                        <InputTextArea id="content" class="form-control" @bind-Value="newArticle.Content" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">Close</button> *@
+                <button class="btn btn-primary" @onclick="CloseAddArticleModal">Go back</button>
             </div>
         </div>
     </div>
-}
+</div>
 
-
-
-@if (showDetail)
+@if (SelectedArticle is not null)
 {
-    <div class="modal fade show"
-         style="display:block; background-color: rgba(0,0,0,0.5);"
-         aria-modal="true" role="dialog">
+    <div class="modal fade"
+         id="showDetail">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@SelectedArticle.Title</h5>
-                    <button type="button" class="btn-close" @onclick="CloseDetailModal"></button>
+                    @* <button type="button" class="btn-close" @onclick="CloseDetailModal"></button> *@
                 </div>
                 <div class="modal-body">
                     <p>@SelectedArticle.Content</p>
@@ -161,31 +162,60 @@
             </div>
         </div>
     </div>
+
 }
+
+
+<div class="modal fade" id="testModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>Not Implemented yet</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
 
 
 @code {
     private List<Article> articles = new List<Article>();
 
-    // TODO: Add the Js runtime Modal access
-    // for viewing details  
-    private bool showDetail = false;
-    void CloseDetailModal() => showDetail = false;
-    void OpenDetailModal() => showDetail = true;
+
     private Article SelectedArticle;
 
     // for adding article
     private ArticleFormModel newArticle = new();
 
 
-    private bool showAddArticle = false;
-    void CloseAddArticleModal() => showAddArticle = false;
-
-
-    void OpenAddArticleModal()
+    async Task CloseAddArticleModal()
     {
-        showAddArticle = true;
+        // StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.hide", "addArticleModal");
+    }
+
+
+    async Task OpenAddArticleModal()
+    {
+        // StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.show", "addArticleModal");
     } 
+
     private async Task HandleValidSubmit()
     {
 
@@ -196,6 +226,8 @@
             articles.Add(result);
             CloseAddArticleModal();
         }
+        // using jsRuntime modal you have to reset the form everytime you open one
+        newArticle = new();
 
     }
 
@@ -208,6 +240,7 @@
         {
             articles = result;
         }
+
 
     }
 
@@ -223,24 +256,38 @@
         }
 
         SelectedArticle = result;
-        OpenDetailModal();
+
+        StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.show", "showDetail");
     }
 
-    void EditArticle(int articleId)
+    async Task likeArticle(int articleId)
     {
-        throw new NotImplementedException("Edit functionality is not implemented yet.");
-        // Navigate or open edit form
+        StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
     }
 
-    void DeleteArticle(int articleId)
+    async Task commentArticle(int articleId)
     {
-        throw new NotImplementedException("Delete functionality is not implemented yet.");
-        // Delete logic
+        StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
     }
 
-    void ShareArticle(int articleId)
+    async Task EditArticle(int articleId)
     {
-        throw new NotImplementedException("Share functionality is not implemented yet.");
-        // Share logic
+        StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+    }
+
+    async Task DeleteArticle(int articleId)
+    {
+        StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+    }
+
+    async Task ShareArticle(int articleId)
+    {
+        StateHasChanged();
+        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
     }
 }
