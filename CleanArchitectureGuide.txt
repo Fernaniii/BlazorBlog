@@ -100,6 +100,18 @@ Next Steps
 
 ## Without CQRS & Mediator Pattern
 
+
+
+
+## Implementing Entity
+=> Adding a EntityClass to the Domain Layer 
+	Note: you can Use private constructor in the Entity class to prevent creating an instance of the Entity class
+=> Adding A DB set for the Entity in the Infrastructure Layer 
+=> Add indexes to the Entity properties in the Infrastructure Layer for better performance
+src: https://adrianbailador.github.io/blog/30-database-indexing-in-net/
+=> Add Migration and Update Database to create the table in the database
+
+
 Adding Repository Method to the Repository (EF Core)
 => Open the 'IEntityNameRepository' Interface in the Domain Layer
 => Implement the EntityNameRepository in the Infrastructure Layer
@@ -110,5 +122,10 @@ Adding Repository Method to the Repository (EF Core)
 
 
 
+## Adding A View Moddel to the Presentation Layer
+=> right click on the [SolutionName].WebUI.Server project => add => new folder => name it 'ViewModels'
+=> right click on the 'ViewModels' folder => add => new class => name it 'EntityNameViewModel'
 
+Make the Entity Constructor in the Domain Layer to be private, and Used View Model in the Presentation Layer to Create the Entity Object,
+using a view model in the presentation layer allows us to shape the data that we want to send to the client,
 
