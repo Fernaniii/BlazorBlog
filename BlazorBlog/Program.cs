@@ -1,12 +1,12 @@
-using BlazorBlog.Application.Articles;
-using BlazorBlog.WebUI.Server.Components;
 using BlazorBlog.Application;
 using BlazorBlog.Infrastructure;
+using BlazorBlog.WebUI.Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents();
+builder.Services.AddRazorComponents()
+                .AddInteractiveServerComponents(); // Add InterActive RenderMode
 
 // To Register a service for dependency injection, you can use the following methods:
 // Firstly you Can add in Program.cs file directly
@@ -40,6 +40,7 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode(); // Add InterActive renderMode
 
 app.Run();
