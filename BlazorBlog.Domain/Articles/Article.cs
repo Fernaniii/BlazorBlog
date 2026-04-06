@@ -22,7 +22,7 @@ namespace BlazorBlog.Domain.Articles
         {
             SetTitle(title);
             SetContent(content);
-            PublishedOn = DateTime.UtcNow;
+            PublishedOn = DateTime.Now;
         }
 
         public static Article Create(string title, string? content)

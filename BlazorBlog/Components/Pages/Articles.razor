@@ -194,6 +194,88 @@
 </div>
 
 
+@* Reaction Modal *@
+<div class="modal fade" id="reactionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>TODO: Add Identity EF to Handle Multiple User </p>
+                <p>TODO: Add Many to Many relationship for Likers(IdentityUser) and the Article as well as the Creator</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@* Share Modal *@
+<div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>TODO: Add Identity EF to Handle Multiple User </p>
+                <p>TODO: Add Many to Many relationship for Likers(IdentityUser) and the Article as well as the Creator</p>
+                <p>TODO: Add Type of Publicity of the Article</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@* Comment Modal *@
+<div class="modal fade" id="commentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>TODO: Add Identity EF to Handle Multiple User </p>
+                <p>TODO: Add Many to Many relationship for Likers(IdentityUser) and the Article as well as the Creator</p>
+                <p>TODO: Handle Comment Replies</p>
+                <p>TODO: Handle thread of Replies</p>
+                <p>TODO: Make the comment and replies thread as Collapsible</p>
+
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @*Delete Success Modal*@
 <div class="modal fade" id="deleteSuccessModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -405,7 +487,7 @@
     async Task commentArticle(int articleId)
     {
         StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        await JS.InvokeVoidAsync("modalHelper.show", "commentModal");
     }
 
     async Task EditArticle(int articleId)
@@ -472,6 +554,6 @@
     async Task ShareArticle(int articleId)
     {
         StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        await JS.InvokeVoidAsync("modalHelper.show", "shareModal");
     }
 }
