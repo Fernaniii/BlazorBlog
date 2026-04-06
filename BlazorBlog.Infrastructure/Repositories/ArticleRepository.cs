@@ -24,9 +24,24 @@ namespace BlazorBlog.Infrastructure.Repositories
             return article;
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var article = await _context.Articles.FindAsync(id);
+
+            if (article is null)
+                return false;
+
+            article.SoftDelete();
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<List<Article>> GetAllArticlesAsync()
         {
-            return await _context.Articles.ToListAsync();
+            return await _context.Articles
+                .Where(a => !a.IsDeleted)
+                .ToListAsync();
         }
 
         public async Task<Article> GetByIdAsync(int id)

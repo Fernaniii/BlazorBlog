@@ -9,5 +9,6 @@ namespace BlazorBlog.Application.Articles
 
         Task<Article> AddAsync(Article article);
         Task<Article> UpdateAsync(Article article);
+        Task<bool> DeleteAsync(int id);
     }
 }

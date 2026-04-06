@@ -17,6 +17,12 @@ namespace BlazorBlog.Application.Articles
             return await _articleRepository.AddAsync(article);
         }
 
+        public Task<bool> DeleteAsync(int id)
+        {
+            var resuilt = _articleRepository.DeleteAsync(id);
+            return resuilt;
+        }
+
         public async Task<List<Article>> GetAllArticlesAsync()
         {
             return await _articleRepository.GetAllArticlesAsync();

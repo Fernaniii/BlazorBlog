@@ -2,7 +2,7 @@
 
 namespace BlazorBlog.Domain.Articles
 {
-    public class Article : Entity
+    public class Article : SoftDeletableEntity
     {
 
         public string Title { get; set; }
@@ -11,6 +11,7 @@ namespace BlazorBlog.Domain.Articles
         public DateTime PublishedOn { get; set; } = DateTime.Now;
 
         public bool IsPublished { get; set; } = false;
+
 
         private Article()
         {
@@ -53,6 +54,7 @@ namespace BlazorBlog.Domain.Articles
             Title = title;
             Content = content;
         }
+
 
     }
 }

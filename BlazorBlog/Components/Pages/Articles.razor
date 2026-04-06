@@ -58,7 +58,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" style="cursor: pointer;" @onclick="() => DeleteArticle(article.Id)">
+                                            <a class="dropdown-item" style="cursor: pointer;" @onclick="() => OpenConfirmDeleteModal(article.Id)">
                                                 Delete
                                             </a>
                                         </li>
@@ -194,6 +194,55 @@
 </div>
 
 
+@*Delete Success Modal*@
+<div class="modal fade" id="deleteSuccessModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger-subtle ">
+                <h5 class="modal-title">Deleted Successfully</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>Not Implemented yet</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*Conirm Delete Modal*@
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">Are you sure in deleting this Article?</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>This cannot be undone</p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-danger" @onclick="() => DeleteArticle()">
+	                    OK
+	            </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade" id="reactionModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -225,6 +274,7 @@
     private List<Article> articles = new List<Article>();
     private bool isEditMode = false;
     private int editingArticleId;
+    private int deletingArticleId;
 
 
     private Article SelectedArticle;
@@ -248,7 +298,7 @@
 
     private async Task HandleValidSubmit()
     {
-        
+
         if (isEditMode)
         {
 
@@ -315,13 +365,18 @@
 
     protected override async Task OnInitializedAsync()
     {
+
+        await LoadAllArticles();
+
+    }
+
+    private async Task LoadAllArticles()
+    {
         var result = await ArticleService.GetAllArticlesAsync();
         if (result is not null)
         {
             articles = result;
         }
-
-
     }
 
     // This is for Demonstration only but you can use the
@@ -375,10 +430,43 @@
         await OpenAddArticleModal(true);
     }
 
-    async Task DeleteArticle(int articleId)
+    async Task OpenConfirmDeleteModal(int _deletingArticleId)
     {
+        deletingArticleId = _deletingArticleId;
+
+        await JS.InvokeVoidAsync("modalHelper.show", "confirmDeleteModal");
+    }
+
+    async Task CloseConfirmDeleteModal()
+    {
+        await JS.InvokeVoidAsync("modalHelper.hide", "confirmDeleteModal");
+    }
+
+    async Task DeleteArticle()
+    {
+        if (deletingArticleId < 0)
+        {
+            return;
+        }
+
+        await CloseConfirmDeleteModal();
+
+
+        var result = await  ArticleService.DeleteAsync(deletingArticleId);
+
+        if (!result)
+        {
+            return;
+        }
+
+        await LoadAllArticles();
         StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        await OpenDeleteSuccessModal();
+    }
+
+    async Task OpenDeleteSuccessModal()
+    {
+        await JS.InvokeVoidAsync("modalHelper.show", "deleteSuccessModal");
     }
 
     async Task ShareArticle(int articleId)
