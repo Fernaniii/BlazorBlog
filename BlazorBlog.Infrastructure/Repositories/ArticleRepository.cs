@@ -37,6 +37,18 @@ namespace BlazorBlog.Infrastructure.Repositories
             return article ?? throw new KeyNotFoundException("Article not found.");
         }
 
+        public async Task<Article> UpdateAsync(Article article)
+        {
+            var _article = await _context.Articles.FindAsync(article.Id);
 
+            if (_article is null)
+                throw new Exception("Article not found");
+
+            article.Update(article.Title, article.Content);
+
+            _context.Articles.Update(article);
+            await _context.SaveChangesAsync();
+            return article;
+        }
     }
 }

@@ -45,5 +45,14 @@ namespace BlazorBlog.Domain.Articles
             Content = content;
         }
 
+        public void Update(string title, string? content)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Title cannot be empty");
+
+            Title = title;
+            Content = content;
+        }
+
     }
 }

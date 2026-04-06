@@ -26,5 +26,10 @@ namespace BlazorBlog.Application.Articles
         {
             return await _articleRepository.GetByIdAsync(id);
         }
+
+        public async Task<Article> UpdateAsync(Article article)
+        {
+            return await _articleRepository.UpdateAsync(article);
+        }
     }
 }

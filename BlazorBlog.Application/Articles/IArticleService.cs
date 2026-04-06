@@ -8,5 +8,6 @@ namespace BlazorBlog.Application.Articles
         Task<Article> GetByIdAsync(int id);
 
         Task<Article> AddAsync(Article article);
+        Task<Article> UpdateAsync(Article article);
     }
 }
