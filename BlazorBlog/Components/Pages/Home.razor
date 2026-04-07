@@ -37,12 +37,14 @@
                         <ul class="list-unstyled">
                             <li>✔ Clean Architecture</li>
                             <li>✔ EF Core</li>
-                            <li>○ Repository Pattern</li>
-                            <li>○ Audit Trail</li>
+                            <li>✔ Repository Pattern</li>
+                            <li>✔ DRY</li>
                         </ul>
                     </div>
                 </div>
             </div>
+
+
 
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
@@ -50,8 +52,9 @@
                         <h5 class="fw-bold">Presentation</h5>
                         <ul class="list-unstyled">
                             <li>✔ Blazor Server</li>
+                            <li>✔ Boostrap 5</li>
                             <li>✔ JS Runtime Modal</li>
-                            <li>○ Interactivity</li>
+                            <li>✔ Interactivity</li>
                         </ul>
                     </div>
                 </div>
@@ -69,6 +72,19 @@
                 </div>
             </div>
 
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="fw-bold">Additionals</h5>
+                        <ul class="list-unstyled">
+                            <li>✔ Soft Delete</li>
+                            <li>○ Logging</li>
+                            <li>○ Audit Trailing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
@@ -76,43 +92,56 @@
 <!-- Feature Applications -->
 <section class="py-5 bg-dark text-light">
     <div class="container-lg">
+
         <div class="text-center mb-5">
             <h2 class="fw-bold">Feature Applications</h2>
         </div>
 
         <div class="row g-4">
 
-            <div class="col-md-6">
+            <!-- Card 1 -->
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="card bg-secondary text-light h-100">
-                    <div class="card-body">
-                        <h5 class="fw-bold">Article Management</h5>
-                        <ul>
-                            <li>✔ CRUD Operations</li>
-                            <li>✔ Clean Architecture</li>
-                            <li>✔ Rich Editor</li>
-                        </ul>
+                    <div class="row g-0 h-100">
+
+                        <div class="col-4">
+                            <img src="/favicon.png"
+                                 class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                        </div>
+
+                        <div class="col-8">
+                            <div class="card-body d-flex flex-column h-100">
+                                <h5 class="fw-bold">Simple Article Page</h5>
+
+                                <ul class="mb-3 small">
+                                    <li>✔ CRUD Operations</li>
+                                    <li>✔ Clean Architecture</li>
+                                    <li>○ Comments</li>
+                                    <li>○ Reaction</li>
+                                </ul>
+
+                                <div class="mt-auto">
+                                    <a href="/articles" class="btn btn-light btn-sm w-100">
+                                        More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="card bg-secondary text-light h-100">
-                    <div class="card-body">
-                        <h5 class="fw-bold">User Interaction</h5>
-                        <ul>
-                            <li>○ Comments</li>
-                            <li>○ Ratings</li>
-                            <li>○ Favorites</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
         </div>
+
     </div>
 </section>
 
 <!-- Footer -->
 <footer class="py-4 bg-dark text-center text-secondary">
-    <small>© 2026 Blazor Blog - Built with .NET 8</small>
+    <div class="container">
+        <small class="d-block mb-1">© 2026 Blazor Blog - Built with .NET 9</small>
+        <small class="d-block">Developer: Magnaye, Fernando Jose</small>
+    </div>
 </footer>
