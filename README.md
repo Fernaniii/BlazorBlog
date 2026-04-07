@@ -1,4 +1,5 @@
-<img width="1735" height="755" alt="image" src="https://github.com/user-attachments/assets/12641959-aeef-4068-809e-64f444356292" />
+<img width="1741" height="876" alt="image" src="https://github.com/user-attachments/assets/ac217fed-7b02-4849-bd94-daf992bb5508" />
+
 
 # How to Use this Template
 1. Create a new Repository of the new Project
