@@ -7,7 +7,7 @@
 <PageTitle>Articles</PageTitle>
 
 <button class="btn btn-primary" 
-    @onclick="() => OpenAddArticleModal()">
+    @onclick="() => OpenAddArticleModal(false)">
     Add
 </button>
 
@@ -58,7 +58,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" style="cursor: pointer;" @onclick="() => DeleteArticle(article.Id)">
+                                            <a class="dropdown-item" style="cursor: pointer;" @onclick="() => OpenConfirmDeleteModal(article.Id)">
                                                 Delete
                                             </a>
                                         </li>
@@ -114,22 +114,26 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Article</h5>
+                <h5 class="modal-title">
+                    @(isEditMode ? "Edit Article" : "Add Article")
+                </h5>
                 <button type="button" class="btn-close" @onclick="CloseAddArticleModal"></button>
             </div>
             <div class="modal-body">
-                <EditForm Model="@newArticle" OnValidSubmit="HandleValidSubmit">
+                <EditForm Model="@selectedArticle" OnValidSubmit="HandleValidSubmit">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <InputText id="title" class="form-control" @bind-Value="newArticle.Title" />
+                        <InputText id="title" class="form-control" @bind-Value="selectedArticle.Title" />
                     </div>
                     <div class="mb-3">
                         <label for="content" class="form-label">Content</label>
-                        <InputTextArea id="content" class="form-control" @bind-Value="newArticle.Content" />
+                        <InputTextArea id="content" class="form-control" @bind-Value="selectedArticle.Content" />
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">
+                        @(isEditMode ? "Update" : "Submit")
+                    </button>
                 </EditForm>
             </div>
             <div class="modal-footer">
@@ -190,17 +194,175 @@
 </div>
 
 
+@* Reaction Modal *@
+<div class="modal fade" id="reactionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>TODO: Add Identity EF to Handle Multiple User </p>
+                <p>TODO: Add Many to Many relationship for Likers(IdentityUser) and the Article as well as the Creator</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@* Share Modal *@
+<div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>TODO: Add Identity EF to Handle Multiple User </p>
+                <p>TODO: Add Many to Many relationship for Likers(IdentityUser) and the Article as well as the Creator</p>
+                <p>TODO: Add Type of Publicity of the Article</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@* Comment Modal *@
+<div class="modal fade" id="commentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>TODO: Add Identity EF to Handle Multiple User </p>
+                <p>TODO: Add Many to Many relationship for Likers(IdentityUser) and the Article as well as the Creator</p>
+                <p>TODO: Handle Comment Replies</p>
+                <p>TODO: Handle thread of Replies</p>
+                <p>TODO: Make the comment and replies thread as Collapsible</p>
+
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*Delete Success Modal*@
+<div class="modal fade" id="deleteSuccessModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger-subtle ">
+                <h5 class="modal-title">Deleted Successfully</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>Not Implemented yet</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*Conirm Delete Modal*@
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">Are you sure in deleting this Article?</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>This cannot be undone</p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-danger" @onclick="() => DeleteArticle()">
+	                    OK
+	            </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="reactionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Reaction</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                <p>Not Implemented yet</p>
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 
 
 
 @code {
     private List<Article> articles = new List<Article>();
+    private bool isEditMode = false;
+    private int editingArticleId;
+    private int deletingArticleId;
 
 
     private Article SelectedArticle;
 
     // for adding article
-    private ArticleFormModel newArticle = new();
+    private ArticleFormModel selectedArticle = new();
 
 
     async Task CloseAddArticleModal()
@@ -210,38 +372,93 @@
     }
 
 
-    async Task OpenAddArticleModal()
+    async Task OpenAddArticleModal(bool _isEditMode)
     {
-        // StateHasChanged();
+        isEditMode = _isEditMode;
         await JS.InvokeVoidAsync("modalHelper.show", "addArticleModal");
     } 
 
     private async Task HandleValidSubmit()
     {
 
-        var article = Article.Create(newArticle.Title, newArticle.Content);
-        var result = await ArticleService.AddAsync(article);
-        if (result is not null)
+        if (isEditMode)
         {
-            articles.Add(result);
-            CloseAddArticleModal();
+
+            await UpdateArticle();
         }
+        else
+        {
+            await CreateArticle();
+        }
+
+        await CloseAddArticleModal();
+
+        // var article = Article.Create(newArticle.Title, newArticle.Content);
+        // var result = await ArticleService.AddAsync(article);
+        // if (result is not null)
+        // {
+        //     articles.Add(result);
+        //     CloseAddArticleModal();
+        // }
         // using jsRuntime modal you have to reset the form everytime you open one
-        newArticle = new();
+
+        // Reseting States 
+        isEditMode = false;
+        selectedArticle = new();
 
     }
 
+    private async Task CreateArticle()
+    {
+        var article = Article.Create(selectedArticle.Title, selectedArticle.Content);
+        var result = await ArticleService.AddAsync(article);
+
+        if (result is not null)
+        {
+            articles.Add(article);
+        }
+    }
+
+
+    private async Task UpdateArticle()
+    {
+        var article = await ArticleService.GetByIdAsync(editingArticleId);
+
+        if (article is null)
+        {
+            throw new Exception("Article not Found");
+        }
+
+
+        article.Update(selectedArticle.Title, selectedArticle.Content);
+
+        var result = await ArticleService.UpdateAsync(article);
+
+        if (result is not null)
+        {
+            var index = articles.FindIndex(a => a.Id == editingArticleId);
+            if (index != -1)
+            {
+                articles[index] = result;
+            }
+        }
+    }
 
 
     protected override async Task OnInitializedAsync()
+    {
+
+        await LoadAllArticles();
+
+    }
+
+    private async Task LoadAllArticles()
     {
         var result = await ArticleService.GetAllArticlesAsync();
         if (result is not null)
         {
             articles = result;
         }
-
-
     }
 
     // This is for Demonstration only but you can use the
@@ -264,30 +481,79 @@
     async Task likeArticle(int articleId)
     {
         StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        await JS.InvokeVoidAsync("modalHelper.show", "reactionModal");
     }
 
     async Task commentArticle(int articleId)
     {
         StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        await JS.InvokeVoidAsync("modalHelper.show", "commentModal");
     }
 
     async Task EditArticle(int articleId)
     {
-        StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        var article = await ArticleService.GetByIdAsync(articleId);
+
+        if (article is null)
+        {
+            throw new Exception("Article not found");
+        }
+
+        isEditMode = true;
+        editingArticleId = articleId;
+
+        selectedArticle =
+        new ArticleFormModel
+        {
+            Title = article.Title,
+            Content = article.Content
+        };
+
+        await OpenAddArticleModal(true);
     }
 
-    async Task DeleteArticle(int articleId)
+    async Task OpenConfirmDeleteModal(int _deletingArticleId)
     {
+        deletingArticleId = _deletingArticleId;
+
+        await JS.InvokeVoidAsync("modalHelper.show", "confirmDeleteModal");
+    }
+
+    async Task CloseConfirmDeleteModal()
+    {
+        await JS.InvokeVoidAsync("modalHelper.hide", "confirmDeleteModal");
+    }
+
+    async Task DeleteArticle()
+    {
+        if (deletingArticleId < 0)
+        {
+            return;
+        }
+
+        await CloseConfirmDeleteModal();
+
+
+        var result = await  ArticleService.DeleteAsync(deletingArticleId);
+
+        if (!result)
+        {
+            return;
+        }
+
+        await LoadAllArticles();
         StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        await OpenDeleteSuccessModal();
+    }
+
+    async Task OpenDeleteSuccessModal()
+    {
+        await JS.InvokeVoidAsync("modalHelper.show", "deleteSuccessModal");
     }
 
     async Task ShareArticle(int articleId)
     {
         StateHasChanged();
-        await JS.InvokeVoidAsync("modalHelper.show", "testModal");
+        await JS.InvokeVoidAsync("modalHelper.show", "shareModal");
     }
 }

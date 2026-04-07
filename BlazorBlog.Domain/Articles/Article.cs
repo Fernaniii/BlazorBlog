@@ -2,7 +2,7 @@
 
 namespace BlazorBlog.Domain.Articles
 {
-    public class Article : Entity
+    public class Article : SoftDeletableEntity
     {
 
         public string Title { get; set; }
@@ -11,6 +11,7 @@ namespace BlazorBlog.Domain.Articles
         public DateTime PublishedOn { get; set; } = DateTime.Now;
 
         public bool IsPublished { get; set; } = false;
+
 
         private Article()
         {
@@ -21,7 +22,7 @@ namespace BlazorBlog.Domain.Articles
         {
             SetTitle(title);
             SetContent(content);
-            PublishedOn = DateTime.UtcNow;
+            PublishedOn = DateTime.Now;
         }
 
         public static Article Create(string title, string? content)
@@ -44,6 +45,16 @@ namespace BlazorBlog.Domain.Articles
 
             Content = content;
         }
+
+        public void Update(string title, string? content)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Title cannot be empty");
+
+            Title = title;
+            Content = content;
+        }
+
 
     }
 }
