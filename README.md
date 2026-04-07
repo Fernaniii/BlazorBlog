@@ -1,15 +1,23 @@
-# Guide to Clean Architecture
+<img width="1735" height="755" alt="image" src="https://github.com/user-attachments/assets/12641959-aeef-4068-809e-64f444356292" />
 
+# How to Use this Template
+1. Create a new Repository of the new Project
+2. Clone to your Local
+3. Download this Template as zip file
+4. Extract to the local clone of your Project
+5. Open it to your **Visual Studio**
+6. Push the Changes
+7. Enjoy your new Project
+
+# Guide to Clean Architecture
 src: https://www.youtube.com/watch?v=wW0n4UdjTHA&t=6295s
 
 ## Adding a 'src' folder
-
 -   right click on the sln file
 -   add folder
 -   rename to 'src'
 
 ## Adding Presentation Layer
-
 -   right click on the 'src' folder
 -   add new project
 -   select 'ASP.NET Core Web API'
@@ -19,25 +27,16 @@ src: https://www.youtube.com/watch?v=wW0n4UdjTHA&t=6295s
 ## Adding Application And Domain Layer
 
 -   right click on the 'src' folder
-
 -   add new project
-
 -   select 'Class Library'
-
 -   name it \[SolutionName\].Application
-
 -   right click on the 'src' folder
-
 -   add new project
-
 -   select 'Class Library'
-
 -   name it \[SolutionName\].Domain
-
 -   remove the Class1.cs file from both projects
 
 ## Presentation Layer
-
 -   right click on the \[SolutionName\].WebUI.Server project
 -   add
 -   project reference
@@ -50,13 +49,12 @@ src: https://www.youtube.com/watch?v=wW0n4UdjTHA&t=6295s
 -   project reference
 -   select \[SolutionName\].Domain
 
-Note! Domain Layer should not reference any other layer, it should be
+> Note! Domain Layer should not reference any other layer, it should be
 independent and reusable in other projects without any dependencies.
 
 ## Infrastructure Layer
 
 ### Adding Infrastructure Project
-
 -   right click on the 'src' folder
 -   add new project
 -   select 'Class Library'
@@ -64,7 +62,6 @@ independent and reusable in other projects without any dependencies.
 -   remove the Class1.cs file from the project
 
 ### Remove the Presentation Project Reference to Application Layer
-
 -   right click on the \[SolutionName\].WebUI.Server project
 -   add
 -   project reference
@@ -74,7 +71,6 @@ independent and reusable in other projects without any dependencies.
 -   click ok
 
 ### Add Project Reference to the Infrastructure
-
 -   right click on the \[SolutionName\].Infrastructure project
 -   add
 -   project reference
@@ -82,14 +78,12 @@ independent and reusable in other projects without any dependencies.
 -   click ok
 
 ## Adding SQL Server to the Infrastructure Layer
-
 -   right click on the \[SolutionName\].Infrastructure project
 -   manage nuget packages
 -   search for 'Microsoft.EntityFrameworkCore.SqlServer'
 -   install the package
 
 ## Add another Dependency Injection Container to the Infrastructure Layer
-
 -   right click on the \[SolutionName\].Infrastructure project
 -   Add
 -   Add new class
@@ -98,7 +92,6 @@ independent and reusable in other projects without any dependencies.
 -   register the service to Program.cs file in the Presentation Layer
 
 ## Add Abstraction to the Domain
-
 Add Abstraction to the Domain all the Repeated Property such as Id,
 CreatedAt, UpdatedAt, DeletedAt for instance, to avoid repeating the
 same properties in all the entities in the Domain Layer
@@ -106,7 +99,6 @@ same properties in all the entities in the Domain Layer
 DRY =\> Don't Repeat Yourself!
 
 ## Add Database using tool
-
 -   go to the solution explorer
 -   right click on the \[SolutionName\].Infrastructure project
 -   Manage Nuget Packages
@@ -127,20 +119,14 @@ found at the top of the Package Manger select
     Server
 
 ## Adding Reposirory Pattern
-
 -   Right click on the \[SolutionName\].Domain project
-
 -   add
-
 -   new class names 'IEntityNameRepository'
-
 -   Implement the Repoisitory 'EnitityNameRepository' in the
     \[SolutionName\].Infrastructure project
-
 -   Add the Query Execution on the Added Implementation
 
 ## Implementation of the Repository in the Application Layer
-
 -   right click on the \[SolutionName\].Application project
 -   add
 -   new class
