@@ -1,4 +1,5 @@
 ﻿using BlazorBlog.Domain.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlazorBlog.Domain.Articles
 {
@@ -27,6 +28,10 @@ namespace BlazorBlog.Domain.Articles
 
         public static Article Create(string title, string? content)
         {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ValidationException("Title cannot be empty");
+
+
             return new Article(title, content);
         }
 

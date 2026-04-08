@@ -13,3 +13,14 @@
 /BlazorBlog.Domain/bin/Debug/net10.0
 /BlazorBlog.Infrastructure/obj
 /BlazorBlog.Infrastructure/bin/Debug/net10.0
+/BlazorBlog.Application.Tests/bin/Debug/net10.0
+/BlazorBlog.Application.Tests/obj
+/BlazorBlog.Domain.Tests/obj
+/BlazorBlog.Domain.Tests/bin/Debug/net10.0
+/BlazorBlog.Infrastructure.Tests/obj
+/BlazorBlog.Infrastructure.Tests/bin/Debug/net10.0
+/BlazorBlog.Integration.Tests/obj
+/BlazorBlog.Integration.Tests/bin/Debug/net10.0
+/BlazorBlog.WebUI.Server.Tests/obj
+/BlazorBlog.WebUI.Server.Tests/bin/Debug/net10.0
+/CleanTemplate.Persistence.Test/obj

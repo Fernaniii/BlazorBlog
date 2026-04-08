@@ -6,4 +6,10 @@
     <Project Path="BlazorBlog.Infrastructure/BlazorBlog.Infrastructure.csproj" Id="8818c14d-30a6-4e4e-b1be-e1a73bb2a017" />
     <Project Path="BlazorBlog/BlazorBlog.WebUI.Server.csproj" Id="863df896-6be1-4348-98df-255ce067f19f" />
   </Folder>
+  <Folder Name="/test/">
+    <Project Path="BlazorBlog.Application.Tests/BlazorBlog.Application.Tests.csproj" Id="4e12c167-21ec-4f8c-9d99-ff177318a352" />
+    <Project Path="BlazorBlog.Domain.Tests/BlazorBlog.Domain.Tests.csproj" Id="9b6976b8-d8d2-4423-8393-301e087bb3f0" />
+    <Project Path="BlazorBlog.Infrastructure.Tests/BlazorBlog.Infrastructure.Tests.csproj" Id="62ea515a-a54b-45c4-830c-7f8a815ce7f3" />
+    <Project Path="BlazorBlog.Integration.Tests/BlazorBlog.Integration.Tests.csproj" Id="ffa25b04-ef0a-4dbd-be20-f8f01c70637b" />
+  </Folder>
 </Solution>
