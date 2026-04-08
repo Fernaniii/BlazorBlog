@@ -1,4 +1,5 @@
 ﻿using BlazorBlog.Domain.Articles;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlazorBlog.Application.Articles
 {
@@ -14,6 +15,9 @@ namespace BlazorBlog.Application.Articles
 
         public async Task<Article> AddAsync(Article article)
         {
+            if (string.IsNullOrWhiteSpace(article.Title))
+                throw new ValidationException("Title cannot be empty");
+
             return await _articleRepository.AddAsync(article);
         }
 
@@ -25,7 +29,9 @@ namespace BlazorBlog.Application.Articles
 
         public async Task<List<Article>> GetAllArticlesAsync()
         {
-            return await _articleRepository.GetAllArticlesAsync();
+            var articles =  await _articleRepository.GetAllArticlesAsync();
+
+            return articles.Where(a => !a.IsDeleted).ToList();
         }
 
         public async Task<Article> GetByIdAsync(int id)
