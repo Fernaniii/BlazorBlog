@@ -1,0 +1,137 @@
+﻿@page "/audit-trailing"
+
+
+@inject AuditService AuditService
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+@if (logs == null || logs.Count == 0)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+        <h5 class="text-muted fw-semibold">No Records Found</h5>
+        <p class="text-muted">There is currently no data available to display in this list.</p>
+    </div>
+
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Table</th>
+                <th>Action</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in logs)
+            {
+                <tr>
+                    <td>@log.TableName</td>
+                    <td>@log.Action</td>
+                    <td>@log.UserId</td>
+                    <td>@log.Timestamp</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary"
+                                @onclick="() => SelectLog(log)">
+                            View
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+<div class="modal fade" id="viewLogInfo" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Log Information</h5>
+                @* <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+            </div>
+
+            <div class="modal-body">
+                @if (selectedLog != null && newValues != null)
+                {
+                    <h5>Changes</h5>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Old Value</th>
+                                <th>New Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var key in newValues.Keys)
+                            {
+                                <tr>
+                                    <td>@key</td>
+                                    <td>@oldValues?[key]</td>
+                                    <td>@newValues[key]</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+            </div>
+
+            <div class="modal-footer">
+                @* <button class="btn btn-secondary" @onclick="CloseModal">
+	                    Close
+	                </button> *@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    private List<AuditLog> logs = new();
+    private AuditLog? selectedLog;
+
+    private Dictionary<string, object>? oldValues;
+    private Dictionary<string, object>? newValues;
+
+    protected override async Task OnInitializedAsync()
+    {
+        logs = await AuditService.GetLogsAsync();
+    }
+
+    private async Task SelectLog(AuditLog log)
+    {
+        selectedLog = log;
+
+        oldValues = string.IsNullOrEmpty(log.OldValues)
+            ? null
+            : JsonSerializer.Deserialize<Dictionary<string, object>>(log.OldValues);
+
+        newValues = string.IsNullOrEmpty(log.NewValues)
+            ? null
+            : JsonSerializer.Deserialize<Dictionary<string, object>>(log.NewValues);
+
+        await ViewLogInformation();
+    }
+
+    async Task ViewLogInformation()
+    {
+        if (selectedLog == null)
+        {
+            return;
+        }
+        
+        await JS.InvokeVoidAsync("modalHelper.show", "viewLogInfo");
+    }
+
+}
