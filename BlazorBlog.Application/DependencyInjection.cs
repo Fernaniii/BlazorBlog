@@ -1,16 +1,19 @@
-﻿using BlazorBlog.Application.Articles;
+﻿using BlazorBlog.Application.Abstractions;
+using BlazorBlog.Application.Articles;
+using BlazorBlog.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlazorBlog.Application
+namespace BlazorBlog.Application;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
-        {
-            services.AddScoped<IArticleService, ArticleService>();
+        services.AddScoped<IArticleService, ArticleService>();
 
-            return services;
-        }
+        services.AddScoped<AuditService>();
 
+        return services;
     }
+
 }
