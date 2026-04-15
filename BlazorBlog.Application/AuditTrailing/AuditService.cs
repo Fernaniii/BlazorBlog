@@ -1,12 +1,11 @@
-﻿using BlazorBlog.Application.Abstractions;
-using BlazorBlog.Domain.Entities;
+﻿using BlazorBlog.Domain.AuditTrailing;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorBlog.Application.Services;
+namespace BlazorBlog.Application.AuditTrailing;
 
-public class AuditService : IAuditRepository
+public class AuditService : IAuditService
 {
     private readonly IAuditRepository _repo;
 

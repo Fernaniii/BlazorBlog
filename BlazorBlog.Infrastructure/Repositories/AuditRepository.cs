@@ -1,5 +1,5 @@
-﻿using BlazorBlog.Application.Abstractions;
-using BlazorBlog.Domain.Entities;
+﻿using BlazorBlog.Application.AuditTrailing;
+using BlazorBlog.Domain.AuditTrailing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
