@@ -1,5 +1,5 @@
 ﻿using BlazorBlog.Domain.Articles;
-using BlazorBlog.Domain.Entities;
+using BlazorBlog.Domain.AuditTrailing;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlazorBlog.Infrastructure;

@@ -1,5 +1,6 @@
-﻿using BlazorBlog.Application.Abstractions;
+﻿using BlazorBlog.Application.AuditTrailing;
 using BlazorBlog.Domain.Articles;
+using BlazorBlog.Domain.AuditTrailing;
 using BlazorBlog.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

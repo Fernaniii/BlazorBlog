@@ -1,6 +1,5 @@
-﻿using BlazorBlog.Application.Abstractions;
-using BlazorBlog.Application.Articles;
-using BlazorBlog.Application.Services;
+﻿using BlazorBlog.Application.Articles;
+using BlazorBlog.Application.AuditTrailing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorBlog.Application;
@@ -11,7 +10,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IArticleService, ArticleService>();
 
-        services.AddScoped<AuditService>();
+        services.AddScoped<IAuditService, AuditService>();
 
         return services;
     }
