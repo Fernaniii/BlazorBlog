@@ -1,5 +1,6 @@
 ﻿using BlazorBlog.Domain.Articles;
 using Microsoft.EntityFrameworkCore;
+using TickerQ.Utilities.Entities;
 
 
 namespace BlazorBlog.Infrastructure.Repositories
@@ -39,9 +40,11 @@ namespace BlazorBlog.Infrastructure.Repositories
 
         public async Task<List<Article>> GetAllArticlesAsync()
         {
+
             return await _context.Articles
                 .Where(a => !a.IsDeleted)
                 .ToListAsync();
+
         }
 
         public async Task<Article> GetByIdAsync(int id)

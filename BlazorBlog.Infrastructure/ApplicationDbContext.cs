@@ -1,6 +1,8 @@
 ﻿using BlazorBlog.Domain.Articles;
 using BlazorBlog.Domain.AuditTrailing;
 using Microsoft.EntityFrameworkCore;
+using TickerQ.EntityFrameworkCore.Configurations;
+using TickerQ.Utilities.Entities;
 
 namespace BlazorBlog.Infrastructure;
 
@@ -16,6 +18,14 @@ public class ApplicationDbContext : DbContext
     public DbSet<Article> Articles { get; set; }
     public DbSet<AuditLog> AuditLogs { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        // Manually apply TickerQ entity configurations
+        modelBuilder.ApplyConfiguration(new TimeTickerConfigurations<TimeTickerEntity>("ticker"));
+        modelBuilder.ApplyConfiguration(new CronTickerConfigurations<CronTickerEntity>("ticker"));
+        modelBuilder.ApplyConfiguration(new CronTickerOccurrenceConfigurations<CronTickerEntity>("ticker"));
+    }
 
 
 
